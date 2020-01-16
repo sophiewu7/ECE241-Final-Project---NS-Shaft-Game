@@ -1,0 +1,10 @@
+
+
+W:/Nov 26/Nov 23/Nov 23/Audio_Clock.v
+
+Dec 01 11AM:51:24>: Error in CNX file format.
+
+Error messages are listed in file
+W:/Nov 26/Nov 23/Nov 23/Audio_Clock.cnxerr.
+
+Can't create the custom megafunction variation file(s)

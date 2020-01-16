@@ -1,0 +1,304 @@
+
+//Display
+module Display(clk, jump, down, left, right, resetn, x, y, color, score, SW);
+	
+	//inputs
+	input clk, resetn, jump,down,left, right;
+	input [9:0]SW;
+	
+	//outputs
+	output reg [7:0] x;
+	output reg [6:0] y;
+	output reg [8:0] color;
+	output reg [3:0] score=4'b0000;
+	reg[6:0] VGAscore;
+	reg gameEnd; //check if game end
+
+	//background
+	wire [14:0] address_background;
+	wire [8:0] color_background;
+	assign address_background = 160*y + x;
+	Background b1(address_background, clk, color_background); 
+
+	//start interface
+	wire [14:0] address_start;
+	wire [8:0] color_start;
+	assign address_start=160*y + x;
+	StartInterface s1(address_start, clk, color_start);
+	
+	//win interface
+	wire [14:0] address_win;
+	wire [8:0] color_win;
+	assign address_win = 160*y + x;
+	win w1(address_win, clk, color_win);
+	
+	//loss interface
+	wire [14:0] address_loss;
+	wire [8:0] color_loss;
+	assign address_loss = 160*y + x;
+
+	
+	
+	//platforms
+	
+	//////////platform 1///////////////////////////////////////////////////////////////////////////////////////
+	wire [6:0] randomx1;
+	lfsr l1(randomx1,1,clk,0);
+	wire [8:0] color_platform1;
+	wire [8:0] address_platform1;
+	assign address_platform1 = (  x >= platform_x1 &&  x <= (platform_x1 + 32) 
+										  && y >= platform_y1 && y <= (platform_y1 + 16) ) ? (32 * (y-platform_y1) + (x - platform_x1) ) : 8'b0;
+	platform1 p1(address_platform1, clk, color_platform1);
+	reg[7:0] platform_x1;
+	reg[6:0] platform_y1;
+	always@(posedge clk)begin
+	if(!resetn)begin
+	platform_y1 <= 7'd120;
+	platform_x1 <= 8'd50;
+	end 
+	 else if((count250) && !gameEnd) begin
+	 if (platform_y1>=10)begin
+		platform_y1<=platform_y1 -2;
+		end 
+	 if (platform_y1<=10)
+		begin
+		platform_y1 <= 7'd120;
+		platform_x1 <= randomx1;
+		end 
+	end
+	end
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//platform 2
+	wire [8:0] color_platform2;
+	wire [8:0] address_platform2;
+	wire [6:0] randomx2;
+	lfsr2 l2(randomx2,1,clk,0);
+
+platform2 p2(address_platform2,
+    clk,
+    color_platform2);
+	 assign address_platform2 = (  x >= platform_x2 &&  x <= (platform_x2 + 24) && y >= platform_y2 && y <= (platform_y2 + 2) )? (24 * (y-platform_y2) + (x - platform_x2) ): 8'b0;
+reg[7:0] platform_x2;
+reg[6:0] platform_y2;
+always@(posedge clk)begin
+if(!resetn&&count02sec)begin
+platform_y2 <= 7'd120;
+platform_x2 <= 8'd0;
+end 
+ else if((count250) && !gameEnd) begin
+ if (platform_y2>=10)begin
+	platform_y2<=platform_y2 -2;
+	end 
+if (platform_y2<=10)
+	begin
+	platform_y2 <= 7'd120;
+	//platform_x2<=8'b100;
+	platform_x2 <= randomx2;
+	end 
+end
+end
+
+wire [8:0] address_player;
+reg[7:0] player_x;
+reg[6:0] player_y;
+wire [8:0] color_player;
+
+
+
+
+//player
+player S5(
+    address_player,
+    clk,
+    color_player);
+assign address_player = (  x >= player_x &&  x <= (player_x + 16) && y >= player_y && y <= (player_y + 16) )? (16 * (y-player_y) + (x - player_x) ): 8'b0;
+
+//player movement 
+always@(posedge clk)begin
+if(!resetn)begin
+player_y <= 7'b0111100;
+player_x <= 8'b00001010;
+end
+else if((count625) && !gameEnd) begin
+if(jump)begin
+player_y <= player_y - 2;
+player_x <= player_x;
+end
+else if(down)begin
+player_y <= player_y + 2;
+player_x <= player_x;
+end
+else if(left)begin
+player_y <= player_y;
+player_x <= player_x-2;
+end
+else if(right)begin
+player_y <= player_y;
+player_x <= player_x+2;
+end
+else begin
+player_y <= player_y;
+player_x <= player_x;
+end
+end
+end
+
+
+
+
+
+//display 
+
+always@(posedge clk) begin
+
+    if(!resetn) begin
+    x <= 8'b0;
+    y <= 7'b0;
+    end
+    else begin
+    if(x == 8'b10011111) begin
+        x <= 8'b0;
+        if(y == 7'b1110111)
+           y <= 7'b0;
+        else
+            y <= y + 1;
+        end
+        else x <= x + 1;
+    end
+end
+
+
+
+
+always@(*) begin
+if (SW[9])
+begin
+// new VGA score stuff ends here!
+
+if( x >= player_x &&  x <= (player_x + 16) && y >= player_y && y <= (player_y + 16) )begin
+if(color_player != 12'b0) // erase the black part of the sprite
+color <= color_player;
+else
+color <= color_background; //player
+end
+else if (  x >= platform_x1 &&  x <= (platform_x1 + 32) && y >= platform_y1 && y <= (platform_y1 + 16)&& platform_y1 >=10)begin
+color<=color_platform1;
+end
+else if (  x >= platform_x2 &&  x <= (platform_x2 + 24) && y >= platform_y2 && y <= (platform_y2 + 2)&& platform_y2 >=10)begin
+color<=color_platform2;
+end
+else begin
+
+color <= color_background; // background
+
+end
+end
+if (SW[8])
+begin
+color <= color_win;
+end
+if (!SW[9]&&!SW[8])
+begin 
+color<=color_start;
+end 
+end
+
+
+
+
+//counters speed controller 
+wire count625;
+wire count250;
+rateDivider r1( clk, resetn, 24'b010111110101111000001111, count625);
+rateDivider r2( clk, resetn, 24'b001001100010010110011111, count250);
+rateDivider r3( clk, resetn, 27'd9999999, count02sec);
+
+endmodule
+module rateDivider( clk, resetn, rate, counter);
+    output reg counter;
+    input clk;
+    input [26:0] rate;
+    input resetn;
+    reg [26:0]count;
+    always @(posedge clk)
+	 begin : Rate_Divider
+            if (!resetn)begin
+                count = rate; 
+                counter = 1'b0;
+            end
+            else begin
+                if (count == 27'd0)begin
+                    count = rate;
+                    counter = 1'b1;
+                end
+                else if (count)begin
+                    count = count - 27'b1;
+                    counter = 1'b0;
+                end
+            end
+     end
+     endmodule
+
+ 
+module lfsr    (
+out             ,  // Output of the counter
+enable          ,  // Enable  for counter
+clk             ,  // clock input
+reset              // reset input
+);
+
+//----------Output Ports--------------
+output [6:0] out;
+//------------Input Ports--------------
+input enable, clk, reset;
+//------------Internal Variables--------
+reg [6:0] out;
+wire        linear_feedback;
+
+//-------------Code Starts Here-------
+assign linear_feedback = !(out[6] ^ out[3]^out[2]^out[1]^out[0]);
+
+always @(posedge clk)
+if (reset) begin // active high reset
+  out <= 7'b0 ;
+end else if (enable) begin
+  out <= {out[5],
+          out[4],out[3],
+          out[2],out[1],
+          out[0], linear_feedback};
+end 
+
+endmodule // End Of Module counter
+
+
+module lfsr2    (
+out             ,  // Output of the counter
+enable          ,  // Enable  for counter
+clk             ,  // clock input
+reset              // reset input
+);
+
+//----------Output Ports--------------
+output [6:0] out;
+//------------Input Ports--------------
+input enable, clk, reset;
+//------------Internal Variables--------
+reg [6:0] out;
+wire  linear_feedback;
+
+//-------------Code Starts Here-------
+assign linear_feedback = !(out[6]^out[4]^out[2]^out[1]);
+
+always @(posedge clk)
+if (reset) begin // active high reset
+  out <= 7'b0 ;
+end else if (enable) begin
+  out <= {out[4],
+          out[1],out[2],
+          out[3],out[5],
+          out[0], linear_feedback};
+end 
+
+endmodule // End Of Module counter
+
