@@ -90,7 +90,7 @@ If we have more time, we would divide Display.v into different files and maybe p
 
 Unfortunately, we lost our original demo videos. But here is a 2x speed-up glance of how our game looks like.
 
-[<img src=/img/figure3.jpg>]([/video/video_demo.mp4](https://youtu.be/Sm7mnZEXDtU))
+[<img src=/img/figure3.jpg>](https://youtu.be/Sm7mnZEXDtU)
 
 ### 6.0 References
 
