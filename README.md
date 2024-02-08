@@ -86,7 +86,13 @@ We also successfully implemented the roller left and roller right platform. As t
 ### 4.0 What would you do differently
 If we have more time, we would divide Display.v into different files and maybe put in some FSM to make it more organized. Also, we will improve the audio of our game to makes it longer (around 3s and loops it). Moreover, the original NS-SHAFT game has 100 levels. If we have more time, we would like to add more levels and more types of platforms to make our game closer to the original game.
 
-### 5.0 References
+### 5.0 Video demo
+
+Unfortunately, we lost our original demo videos. But here is a 2x speed up glance of how our game looks like.
+
+![](/video/video_demo.mp4)
+
+### 6.0 References
 
 [1] "Random Counter (LFSR)", Asic-world.com , 2019. [Online]. Available:
 http://www.asic-world.com/examples/verilog/lfsr.html. [Accessed: 13 Nov 2019]
