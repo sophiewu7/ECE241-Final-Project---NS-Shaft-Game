@@ -2,15 +2,15 @@
 
 In a team of two, [Shiying Wu](https://github.com/sophiewu7) and [Xintong Zhou](https://github.com/OscarZhou0107), built a video game similar to NS-Shaft using Verilog with an FPGA board, a PS2 keyboard, a VGA adaptor and a monitor as the final project for ECE241 (Digital Systems).
 
-Through three weeks of work, we have successfully build a video game where a player (snowman)
+Through three weeks of work, we have successfully built a video game where a player (snowman)
 can jump down three different types of randomly moving (both speed and position) platforms to
 reach the 30th level (every 5 platforms count as 1 level) to win the game.
 
 ## 1.0 Introduction
 
-The goal of this design project was to apply what we have learned in ECE241 to create a game similar to NS-SHAFT. Through three weeks of hard work, we have successfully build a fully functional game by using a PS2 keyboard, an FPGA board, a monitor and a speaker.
+The goal of this design project was to apply what we have learned in ECE241 to create a game similar to NS-SHAFT. Through three weeks of hard work, we have successfully built a fully functional game by using a PS2 keyboard, an FPGA board, a monitor, and a speaker.
 
-Our game consists of four interfaces: start interface, game interface, win interface, and loss interface. In our game, a player (a snowman) goes down the screen by jumping onto 4 different types of platforms while the background is keep moving upwards. Once the player moves down 30 levels, the player wins the game. At the top of the screen, there is a line of spikes where the player will lose 1 heart if he/she hits the spikes. The player will have 5 hearts in total, once he/she lose all his/her life, he/she lose the game. Also, if the player did not land on any platform, he/she will fall off the screen and the game will be over.
+Our game consists of four interfaces: start interface, game interface, win interface, and loss interface. In our game, a player (a snowman) goes down the screen by jumping onto 4 different types of platforms while the background keeps moving upwards. Once the player moves down 30 levels, the player wins the game. At the top of the screen, there is a line of spikes where the player will lose 1 heart if he/she hits the spikes. The player will have 5 hearts in total, once he/she loses all his/her life, he/she loses the game. Also, if the player does not land on any platform, he/she will fall off the screen and the game will be over.
 
 ## 2.0 Design
 
@@ -88,9 +88,9 @@ If we have more time, we would divide Display.v into different files and maybe p
 
 ### 5.0 Video demo
 
-Unfortunately, we lost our original demo videos. But here is a 2x speed up glance of how our game looks like.
+Unfortunately, we lost our original demo videos. But here is a 2x speed-up glance of how our game looks like.
 
-![](/video/video_demo.mp4)
+[<img src=/img/figure3.jpg>]([/video/video_demo.mp4](https://youtu.be/Sm7mnZEXDtU))
 
 ### 6.0 References
 
