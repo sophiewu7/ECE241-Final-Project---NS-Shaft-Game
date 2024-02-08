@@ -1,7 +1,8 @@
 # NS-Shaft Game
 
-· In a team of two, built a video game similar to NS-Shaft using Verilog with an FPGA board, a PS2 keyboard, a VGA adaptor and a monitor as the final project for ECE241 (Digital Systems).
-· Through three weeks of work, we have successfully build a video game where a player (snowman)
+In a team of two, built a video game similar to NS-Shaft using Verilog with an FPGA board, a PS2 keyboard, a VGA adaptor and a monitor as the final project for ECE241 (Digital Systems).
+
+Through three weeks of work, we have successfully build a video game where a player (snowman)
 can jump down three different types of randomly moving (both speed and position) platforms to
 reach the 30th level (every 5 platforms count as 1 level) to win the game.
 
@@ -89,5 +90,6 @@ If we have more time, we would divide Display.v into different files and maybe p
 
 [1] "Random Counter (LFSR)", Asic-world.com , 2019. [Online]. Available:
 http://www.asic-world.com/examples/verilog/lfsr.html. [Accessed: 13 Nov 2019]
+
 [2] "IP cores for the Altera DE1-SoC board", Eecg.toronto.edu , 2019. [Online]. Available:
 http://www.eecg.toronto.edu/~pc/courses/241/DE1_SoC_cores/. [Accessed: 12 Nov 2019].
